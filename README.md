@@ -1,138 +1,174 @@
 # ScoutAI — Evidence Verification & Intelligence Agent
 
-> A recruiter-ready full-stack AI intelligence agent that explores complex topics, breaks down research questions, gathers live web evidence via free-tier search adapters, resolves conflicting claims with Gemini 3.8 Flash, and delivers structured, source-cited investigative dossiers.
+An AI-powered research application that decomposes complex questions, retrieves live web evidence, analyzes conflicting claims, identifies knowledge gaps, and generates structured intelligence reports with source citations.
+
+**Live Demo:** [Launch ScoutAI](https://scoutai-research-agent-3234.ai.studio/)
+
+**GitHub Repository:** [scoutai-evidence-agent](https://github.com/KeerthanaHM1/scoutai-evidence-agent)
 
 ---
 
-## 🌟 Key Highlights & Capabilities
+## 🌟 Key Features
 
-- **Quota-Resilient Architecture**: Removes the dependency on Gemini's built-in Google Search Grounding (which is prone to quota limits and paid tiers). Instead, uses a dedicated server-side search adapter coupled with Gemini 3.8 Flash for reasoning, evidence matrix classification, and report synthesis.
-- **Real-Time Web Search Adapter**:
-  - Connects to free-tier search providers (such as **Tavily Search API** with 1,000 free searches/month or **Serper Google Search API** with 2,500 free queries, neither requiring a credit card).
-  - Preserves 100% genuine source URLs, domains, and article excerpts.
-  - Strict zero-fabrication guarantee: if search is unconfigured or returns no results, ScoutAI clearly informs the user rather than inventing citations.
-- **Session Concurrency Protection**: Limits execution to a maximum of one research investigation at a time per session, preventing concurrent quota exhaustion and race conditions.
-- **Bounded Retries & Graceful Diagnostics**: Single-retry bounded backoff with clear diagnostics for configuration, rate-limits, or network issues.
-- **Tri-Tier Evidence Matrix**:
-  - **Supported Claims** (`status: 'supported'`): High evidence consensus with direct source citations.
-  - **Conflicting Claims** (`status: 'conflicting'`): Disputed assertions juxtaposing Perspective A vs Perspective B side-by-side with nuance reconciliation.
-  - **Unknown Information** (`status: 'unknown'`): Crucial empirical gaps, unreleased benchmarks, or proprietary blindspots.
-- **Confidence Calibration Score**: Calibrated 0–100 confidence rating analyzing source diversity, data completeness, and consensus density.
-- **Live Progress Timeline**: Real-time multi-stage visual stepper streaming agent reasoning steps and queries executed via Server-Sent Events (SSE).
-- **Export & Portability**: Instant one-click Markdown export (`.md` file) with embedded citation tables and audit trail, plus clipboard copy.
-- **Persistent Investigation History**: Saved on disk and browser storage to reload and review past dossiers.
-- **Zero Client-Side Secrets**: All Gemini API and search keys reside strictly on the server side.
+- **AI-Powered Topic Decomposition:** Breaks complex research questions into focused investigative subquestions.
+- **Live Web Search:** Retrieves real search results through a configured server-side search provider.
+- **Source-Linked Findings:** Presents source URLs, domains, and available excerpts to support research findings.
+- **Evidence Matrix:** Organizes findings into three categories:
+  - **Supported Claims:** Claims supported by the retrieved evidence.
+  - **Conflicting Claims:** Claims for which sources provide differing evidence or interpretations.
+  - **Unknown Information:** Important questions that available evidence does not adequately resolve.
+- **Evidence-Based Confidence Estimate:** Provides an indicative confidence score based on evidence completeness, source diversity, and the available findings.
+- **Live Research Progress:** Displays investigation stages and progress updates.
+- **Investigation History:** Helps users revisit previous research reports.
+- **Markdown Export:** Download or copy structured reports.
+- **Error Handling:** Provides helpful messages for missing configuration, rate limits, and network errors.
+- **Server-Side Secret Handling:** Keeps API credentials out of frontend code.
+- **Responsive Interface:** Provides a modern interface with dark and light themes.
 
----
-
-## 🏗️ Architecture & Agent Pipeline
+## 🏗️ Architecture
 
 ```text
-[ User Research Topic ]
-           │
-           ▼
-[ Stage 1: Topic Decomposition (Gemini 3.8 Flash) ]
-   • Deconstructs prompt into 4 core analytical sub-questions
-   • Generates 3 targeted web search query vectors
-           │
-           ▼
-[ Stage 2: Web Search Adapter (Tavily / Serper / Brave) ]
-   • Server-side adapter queries live web index
-   • Retrieves real URLs, titles, domains, and excerpts
-   • Bounded to 1 retry max with 10s timeout
-           │
-           ▼
-[ Stage 3: Evidence Matrix & Cross-Verification (Gemini 3.8 Flash) ]
-   • Cross-references retrieved excerpts against sub-questions
-   • Classifies claims into Supported, Conflicting, and Unknown
-   • Extracts conflicting debates and synthesizes nuance
-           │
-           ▼
-[ Stage 4: Confidence Calibration & Report Synthesis ]
-   • Computes 0–100 confidence score based on source authoritativeness
-   • Identifies critical limitations and future follow-up questions
-           │
-           ▼
-[ Real-Time SSE Stream -> React Dashboard & Markdown Exporter ]
+User Research Question
+        |
+        v
+1. Topic Decomposition
+   Gemini analyzes the question and creates subquestions
+        |
+        v
+2. Web Search Adapter
+   Retrieves real source URLs, titles, and excerpts
+        |
+        v
+3. Evidence Analysis
+   Gemini analyzes retrieved evidence and disagreements
+        |
+        v
+4. Evidence Classification
+   Supported | Conflicting | Unknown
+        |
+        v
+5. Report Generation
+   Findings, citations, confidence estimate, and limitations
+        |
+        v
+Interactive Dashboard and Markdown Export
 ```
 
----
+## 🛠️ Technology Stack
 
-## 🚀 Tech Stack
+- **Frontend:** React, TypeScript, Tailwind CSS
+- **Backend:** Node.js, Express
+- **AI Engine:** Google Gemini API
+- **Web Search:** Configurable search API adapter
+- **Streaming:** Server-Sent Events (SSE), if enabled in the configured implementation
+- **Storage:** Browser local storage and backend persistence, subject to deployment configuration
+- **Tools:** npm, Git, GitHub
 
-- **Frontend**: React 19, TypeScript, Tailwind CSS v4, Lucide Icons, Plus Jakarta Sans & JetBrains Mono typography.
-- **Backend**: Node.js, Express, tsx.
-- **AI Engine**: `@google/genai` (v2.4.0) with model `gemini-3.8-flash` for reasoning and synthesis.
-- **Search Adapter**: Decoupled HTTP search provider (Tavily, Serper, or Brave).
-- **Streaming**: Server-Sent Events (SSE) for agent thought streaming and live progress updates.
-- **Storage**: Local filesystem JSON persistence with client-side localStorage synchronization.
+## 🚀 Getting Started
 
----
+### Prerequisites
 
-## 🛠️ Free-Tier Setup Instructions
+- Node.js and npm
+- A Google Gemini API key
+- An API key for a search provider supported by the implementation
 
-ScoutAI requires a **Gemini API Key** for intelligence synthesis and a **Free Search API Key** for live web retrieval.
-
-### 1. Gemini API Key (Free)
-- Automatically injected in Google AI Studio Build.
-- Or obtain from [Google AI Studio](https://aistudio.google.com/) and set `GEMINI_API_KEY`.
-
-### 2. Free Web Search Provider (Choose One)
-
-#### Option A: Tavily Search API (Recommended)
-1. Go to [https://tavily.com](https://tavily.com) and create a free account (no credit card required).
-2. Copy your API key from the dashboard (includes **1,000 free searches per month**).
-3. Set the key in **Settings > Secrets** or in your `.env` file:
-   ```bash
-   TAVILY_API_KEY="tvly-..."
-   ```
-
-#### Option B: Serper Google Search API (Alternative)
-1. Go to [https://serper.dev](https://serper.dev) and sign up with email (no credit card required).
-2. Copy your API key from the dashboard (includes **2,500 free queries**).
-3. Set the key in **Settings > Secrets** or in your `.env` file:
-   ```bash
-   SERPER_API_KEY="..."
-   ```
-
----
-
-## 💻 Running Locally
+### 1. Clone the Repository
 
 ```bash
-# 1. Install dependencies
-npm install
-
-# 2. Configure environment
-cp .env.example .env
-# Edit .env with your GEMINI_API_KEY and TAVILY_API_KEY / SERPER_API_KEY
-
-# 3. Start development server
-npm run dev
-
-# 4. Production build
-npm run build
-npm start
+git clone https://github.com/KeerthanaHM1/scoutai-evidence-agent.git
+cd scoutai-evidence-agent
 ```
-Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+### 2. Install Dependencies
+
+```bash
+npm install
+```
+
+### 3. Configure Environment Variables
+
+Create a `.env` file using `.env.example` as a reference.
+
+Example configuration for Gemini and Tavily:
+
+```env
+GEMINI_API_KEY=your_gemini_api_key
+TAVILY_API_KEY=your_tavily_api_key
+```
+
+Use only the environment variables supported by your current search adapter. If the implementation uses Serper or Brave instead, configure the corresponding variable documented in `.env.example`.
+
+**Never commit actual API keys or `.env` files to GitHub.** Keep `.env.example` limited to placeholder values.
+
+### 4. Obtain API Keys
+
+- **Gemini API:** [Google AI Studio](https://aistudio.google.com/)
+- **Tavily Search API:** [Tavily](https://www.tavily.com/)
+- **Serper Search API:** [Serper](https://serper.dev/)
+- **Brave Search API:** [Brave Search API](https://brave.com/search/api/)
+
+Availability, usage limits, and free-tier terms depend on the provider and may change. Configure only a provider supported by the application code.
+
+### 5. Start the Development Server
+
+```bash
+npm run dev
+```
+
+Open the local URL printed in your terminal. If the project defines separate frontend and backend commands, follow the scripts in `package.json` and the README or server configuration.
+
+### 6. Build for Production
+
+```bash
+npm run build
+```
+
+Use the production start command defined in `package.json` to run the built application.
+
+## 🔍 Example Research Query
+
+Try investigating:
+
+> Are solid-state batteries ready for commercial electric vehicle mass production? Compare technical progress, manufacturing challenges, costs, and current limitations using reliable sources.
+
+A completed investigation should present the available evidence, conflicting claims where relevant, unresolved questions, source links, and a structured report.
+
+## 🧪 Testing Checklist
+
+- [ ] Submit a valid research question.
+- [ ] Confirm that live search returns real, relevant sources.
+- [ ] Open citations and verify that they support the associated claims.
+- [ ] Review supported, conflicting, and unknown findings.
+- [ ] Confirm that rate limits and search failures produce helpful messages.
+- [ ] Export a report as Markdown and open the downloaded file.
+- [ ] Refresh the app and test investigation history.
+- [ ] Confirm that API keys are not exposed in frontend code or repository files.
+
+## 🔐 Security and Limitations
+
+- Research quality depends on the relevance and reliability of retrieved sources.
+- AI-generated summaries and confidence estimates should be independently verified for important decisions.
+- Search-provider rate limits may temporarily prevent live research.
+- Local filesystem data may not survive redeployments unless the hosting environment supports persistent storage.
+- API keys must remain server-side and should never be committed to source control.
+
+## 🚧 Future Enhancements
+
+- Automated evaluation of claim accuracy and citation relevance.
+- Improved source-quality scoring and duplicate-source detection.
+- Research report comparison and version history.
+- Additional search-provider integrations.
+- PDF report export and shareable investigation links.
+
+## 👩‍💻 Author
+
+**Keerthana H M**
+
+Computer Science Engineering Student
+
+- **Live Project:** [ScoutAI](https://scoutai-research-agent-3234.ai.studio/)
+- **GitHub:** [KeerthanaHM1](https://github.com/KeerthanaHM1)
 
 ---
 
-## 🧪 Testing the Complete Research Flow
-
-1. **Verify Health Endpoint**:
-   ```bash
-   curl -s http://localhost:3000/api/health
-   ```
-   Returns `geminiConfigured: true`, active `searchProvider`, and `searchConfigured: true/false`.
-
-2. **Test Search Provider Not Configured**:
-   - If no search key is added, ScoutAI immediately displays a clean setup guide banner and halts gracefully without infinite retries or fake citations.
-
-3. **Test Live Research Stream**:
-   - Enter a query like *"Are solid-state batteries ready for commercial EV mass production in 2026?"*
-   - Watch the multi-stage visual stepper stream decomposition, live search queries, and claim verification in real-time.
-   - Inspect the interactive Evidence Matrix, click verified source links, review opposing viewpoints, and export report as Markdown.
-
-4. **Test Concurrency Guard**:
-   - If a research job is running, concurrent requests receive a `429` status explaining that an investigation is currently active.
+*ScoutAI helps users investigate complex questions by organizing available evidence, highlighting disagreements, and making research sources easier to inspect.*

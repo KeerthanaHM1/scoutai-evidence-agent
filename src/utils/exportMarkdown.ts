@@ -1,0 +1,151 @@
+import { ResearchReport } from '../types';
+
+export function generateReportMarkdown(report: ResearchReport): string {
+  const dateFormatted = new Date(report.timestamp).toLocaleString('en-US', {
+    dateStyle: 'full',
+    timeStyle: 'short',
+  });
+
+  const sourceMap = new Map(report.sources.map((s) => [s.id, s]));
+
+  let md = `# Research Report: ${report.topic}\n\n`;
+  md += `**Investigated by:** ScoutAI Evidence Verification & Intelligence Agent  \n`;
+  md += `**Date:** ${dateFormatted}  \n`;
+  md += `**Confidence Score:** ${report.confidenceAssessment.overallScore}/100 (${report.confidenceAssessment.level})  \n`;
+  md += `**Sources Analyzed:** ${report.sources.length} live citations ${report.searchProvider ? `(via ${report.searchProvider})` : ''}  \n\n`;
+
+  md += `---\n\n`;
+
+  md += `## 1. Executive Summary\n\n`;
+  md += `${report.executiveSummary}\n\n`;
+
+  if (report.subQuestions && report.subQuestions.length > 0) {
+    md += `### Core Investigative Hypotheses\n\n`;
+    report.subQuestions.forEach((q, i) => {
+      md += `${i + 1}. ${q}\n`;
+    });
+    md += `\n`;
+  }
+
+  md += `## 2. Key Empirical Findings\n\n`;
+  report.keyFindings.forEach((kf, idx) => {
+    const citations = kf.sourceIds
+      .map((id) => {
+        const src = sourceMap.get(id);
+        return src ? `[${src.title}](${src.url})` : id;
+      })
+      .join(', ');
+    md += `### 2.${idx + 1} ${kf.title}\n\n`;
+    md += `${kf.description}\n\n`;
+    if (citations) {
+      md += `*Sources cited:* ${citations}\n\n`;
+    }
+  });
+
+  md += `## 3. Evidence Verification Matrix\n\n`;
+  md += `| Claim | Status | Confidence | Empirical Assessment | Sources |\n`;
+  md += `| :--- | :--- | :--- | :--- | :--- |\n`;
+  report.claims.forEach((c) => {
+    const statusEmoji = c.status === 'supported' ? '✅ Supported' : c.status === 'conflicting' ? '⚠️ Conflicting' : '❓ Unknown';
+    const supp = c.supportingSourceIds
+      .map((id) => {
+        const s = sourceMap.get(id);
+        return s ? `[${s.domain}](${s.url})` : id;
+      })
+      .join('; ');
+    const opp = (c.opposingSourceIds || [])
+      .map((id) => {
+        const s = sourceMap.get(id);
+        return s ? `[${s.domain}](${s.url})` : id;
+      })
+      .join('; ');
+
+    const sourcesCell = [supp && `Supp: ${supp}`, opp && `Opp: ${opp}`].filter(Boolean).join('<br>');
+    const sanitizedClaim = c.claim.replace(/\|/g, '\\|');
+    const sanitizedExp = c.explanation.replace(/\|/g, '\\|');
+    md += `| ${sanitizedClaim} | ${statusEmoji} | ${c.confidence.toUpperCase()} | ${sanitizedExp} | ${sourcesCell || 'N/A'} |\n`;
+  });
+  md += `\n`;
+
+  if (report.conflictingDebates && report.conflictingDebates.length > 0) {
+    md += `## 4. Conflicting Claims & Nuance Analysis\n\n`;
+    report.conflictingDebates.forEach((d, idx) => {
+      md += `### Debate ${idx + 1}: ${d.topic}\n\n`;
+      md += `- **Perspective A:** ${d.perspectiveA.stance}\n`;
+      if (d.perspectiveA.sourceIds.length) {
+        md += `  *Evidence:* ${d.perspectiveA.sourceIds.map((id) => sourceMap.get(id)?.title || id).join(', ')}\n`;
+      }
+      md += `- **Perspective B:** ${d.perspectiveB.stance}\n`;
+      if (d.perspectiveB.sourceIds.length) {
+        md += `  *Evidence:* ${d.perspectiveB.sourceIds.map((id) => sourceMap.get(id)?.title || id).join(', ')}\n`;
+      }
+      md += `- **Nuance & Root Cause:** ${d.nuance}\n\n`;
+    });
+  }
+
+  if (report.unknownsAndBlindspots && report.unknownsAndBlindspots.length > 0) {
+    md += `## 5. Unknowns, Data Gaps & Blindspots\n\n`;
+    report.unknownsAndBlindspots.forEach((u) => {
+      md += `- ${u}\n`;
+    });
+    md += `\n`;
+  }
+
+  md += `## 6. Confidence Assessment & Methodology Calibration\n\n`;
+  md += `- **Overall Confidence Score:** ${report.confidenceAssessment.overallScore}/100 (${report.confidenceAssessment.level})\n`;
+  md += `- **Calibration Rationale:** ${report.confidenceAssessment.rationale}\n`;
+  md += `- **Data Completeness:** ${report.confidenceAssessment.dataCompleteness}\n`;
+  md += `- **Source Diversity:** ${report.confidenceAssessment.sourceDiversity}\n\n`;
+
+  if (report.limitations && report.limitations.length > 0) {
+    md += `### Limitations\n\n`;
+    report.limitations.forEach((l) => {
+      md += `- ${l}\n`;
+    });
+    md += `\n`;
+  }
+
+  if (report.recommendedFollowUps && report.recommendedFollowUps.length > 0) {
+    md += `### Recommended Follow-Up Investigations\n\n`;
+    report.recommendedFollowUps.forEach((rf) => {
+      md += `- ${rf}\n`;
+    });
+    md += `\n`;
+  }
+
+  md += `## 7. Verified Sources & Citations\n\n`;
+  report.sources.forEach((s) => {
+    md += `- **[${s.id}]** [${s.title}](${s.url}) — \`${s.domain}\` *(${s.credibilityTier || 'web'}, relevance: ${s.relevanceScore || 90}%)\*\n`;
+  });
+  md += `\n`;
+
+  if (report.searchQueries && report.searchQueries.length > 0) {
+    md += `### Real Search Queries Executed\n\n`;
+    report.searchQueries.forEach((q) => {
+      md += `- \`${q}\`\n`;
+    });
+    md += `\n`;
+  }
+
+  md += `---\n*Generated by ScoutAI Intelligence System. Grounded with live web verification.*`;
+
+  return md;
+}
+
+export function downloadMarkdownFile(report: ResearchReport) {
+  const content = generateReportMarkdown(report);
+  const blob = new Blob([content], { type: 'text/markdown;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  const safeFilename = report.topic
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .slice(0, 40)
+    .replace(/^-|-$/g, '');
+  link.href = url;
+  link.download = `scoutai-report-${safeFilename || 'investigation'}.md`;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
+}

@@ -1,0 +1,8 @@
+{
+  "name": "ScoutAI — Evidence Verification & Intelligence Agent",
+  "description": "Recruiter-ready AI intelligence agent that explores complex topics, breaks down research questions, gathers live web evidence, resolves conflicting claims, and produces structured source-cited reports.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

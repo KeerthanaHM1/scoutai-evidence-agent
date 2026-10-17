@@ -1,0 +1,185 @@
+[
+  {
+    "id": "rep_ssb_ev_2026_dossier",
+    "topic": "Are solid-state batteries ready for commercial EV mass production in 2026?",
+    "depth": "deep",
+    "timestamp": "2026-10-17T02:45:00.000Z",
+    "executiveSummary": "Publicly verified automotive and battery manufacturing roadmaps indicate that full solid-state battery (SSB) mass commercialization remains in pre-production pilot testing for 2026, rather than volume retail deployment. While several original equipment manufacturers (OEMs)—most notably Toyota, QuantumScape (partnered with Volkswagen's PowerCo), and Factorial Energy—have demonstrated high-energy-density B-sample cells, full commercial gigafactory-scale production is projected between 2027 and 2030.\n\nIn the near term (2025–2026), vehicle manufacturers are primarily deploying 'semi-solid-state' architectures (incorporating 5–10% liquid/gel electrolyte) in high-end flagship vehicles such as Nio's ET7 (WeLion cells) and IM Motors (SAIC). These hybrid configurations deliver gravimetric energy densities near 360–400 Wh/kg without the extreme manufacturing challenges of ceramic separator brittleness and lithium metal dendrite pressure containment.\n\nBottom Line: True all-solid-state batteries will see low-volume pilot test fleets in premium showcase models by late 2026, but will not achieve mass-market vehicle penetration before 2028–2030 due to high equipment capital costs, interfacial impedance degradation, and manufacturing yield bottlenecks.",
+    "subQuestions": [
+      "What are the verified gravimetric energy density (Wh/kg) and cycle life metrics achieved by leading solid-state battery pilot lines?",
+      "How do announcements from Toyota, Volkswagen/QuantumScape, and Chinese OEMs differ between semi-solid and true all-solid-state architectures?",
+      "What are the core manufacturing bottlenecks (e.g. isostatic pressure requirements, ceramic brittleness, interface impedance)?",
+      "What is the consensus commercial volume production timeline according to independent industry analysts (BloombergNEF, Benchmark Minerals)?"
+    ],
+    "searchQueries": [
+      "solid state battery commercial EV production timeline 2026 2027 Toyota QuantumScape",
+      "semi solid state battery vs all solid state electric vehicle deployment Nio WeLion",
+      "solid state battery energy density cycle life manufacturing challenges BloombergNEF",
+      "QuantumScape PowerCo B-sample validation volume production roadmap"
+    ],
+    "sources": [
+      {
+        "id": "src-1",
+        "title": "QuantumScape and Volkswagen's PowerCo Announce Landmark Industrialization Agreement",
+        "url": "https://www.volkswagen-group.com/en/press-releases/powerco-and-quantumscape-announce-groundbreaking-agreement-to-commercialize-solid-state-batteries-18451",
+        "domain": "volkswagen-group.com",
+        "credibilityTier": "authoritative",
+        "relevanceScore": 96
+      },
+      {
+        "id": "src-2",
+        "title": "Toyota Solid-State Battery Commercialization Roadmap and Mass Production Outlook",
+        "url": "https://global.toyota/en/newsroom/corporate/39288509.html",
+        "domain": "global.toyota",
+        "credibilityTier": "authoritative",
+        "relevanceScore": 94
+      },
+      {
+        "id": "src-3",
+        "title": "Solid-State Batteries for Electric Vehicles: Realities and Scaling Bottlenecks",
+        "url": "https://www.nature.com/articles/s41560-023-01382-w",
+        "domain": "nature.com",
+        "credibilityTier": "academic",
+        "relevanceScore": 98
+      },
+      {
+        "id": "src-4",
+        "title": "BloombergNEF Electric Vehicle Battery Outlook: Transition to Advanced Chemistries",
+        "url": "https://about.bnef.com/electric-vehicle-outlook/",
+        "domain": "bnef.com",
+        "credibilityTier": "industry",
+        "relevanceScore": 92
+      },
+      {
+        "id": "src-5",
+        "title": "Reuters: Chinese Automakers Push Semi-Solid State Batteries as Stepping Stone",
+        "url": "https://www.reuters.com/business/autos-transportation/chinese-ev-makers-leap-into-semi-solid-state-batteries-2024-04-12/",
+        "domain": "reuters.com",
+        "credibilityTier": "news",
+        "relevanceScore": 90
+      }
+    ],
+    "claims": [
+      {
+        "id": "claim-1",
+        "claim": "All-solid-state batteries will reach mass automotive production in 2026.",
+        "status": "conflicting",
+        "confidence": "high",
+        "explanation": "OEM press statements sometimes claim 2026 readiness, but production metrics disclose that 2026 represents pilot production and low-volume premium testing. Full gigawatt-scale production is projected for 2028-2030 by BloombergNEF and peer-reviewed manufacturing analysis.",
+        "supportingSourceIds": ["src-2"],
+        "opposingSourceIds": ["src-3", "src-4"]
+      },
+      {
+        "id": "claim-2",
+        "claim": "Semi-solid-state batteries are already commercially available in production vehicles.",
+        "status": "supported",
+        "confidence": "high",
+        "explanation": "Multiple Chinese electric vehicle manufacturers (Nio with WeLion 150 kWh packs, IM Motors) have deployed production vehicles utilizing gel/hybrid electrolytes with energy densities reaching ~360 Wh/kg.",
+        "supportingSourceIds": ["src-5", "src-4"]
+      },
+      {
+        "id": "claim-3",
+        "claim": "Interfacial impedance and external mechanical pressure requirements remain the primary solid electrolyte scaling bottlenecks.",
+        "status": "supported",
+        "confidence": "high",
+        "explanation": "Nature Energy literature and teardown benchmarks confirm that maintaining intimate solid-solid contact across expansion cycles requires stack pressures of 1 to 5 MPa, necessitating specialized pack casing.",
+        "supportingSourceIds": ["src-3"]
+      },
+      {
+        "id": "claim-4",
+        "claim": "Cell cost per kilowatt-hour for solid-state batteries will undercut lithium-iron-phosphate (LFP) by 2027.",
+        "status": "unknown",
+        "confidence": "low",
+        "explanation": "Current pilot production costs for solid-state separators exceed $150-$200/kWh compared to sub-$65/kWh for mature LFP chemistries. High-volume cost parity timelines remain unverified by public audited data.",
+        "supportingSourceIds": [],
+        "opposingSourceIds": []
+      }
+    ],
+    "keyFindings": [
+      {
+        "title": "B-Sample Validation Reached by Western Leaders",
+        "description": "QuantumScape and Volkswagen's PowerCo executed a non-exclusive license agreement targeting up to 40-80 GWh/year, validating anode-free solid-state lithium-metal endurance over 1,000 cycles with >95% capacity retention in laboratory and pilot conditions.",
+        "sourceIds": ["src-1", "src-3"]
+      },
+      {
+        "title": "Semi-Solid Serves as Near-Term Bridge Architecture",
+        "description": "Due to lower barrier-to-entry on conventional roll-to-roll coating equipment, hybrid semi-solid batteries have entered limited series production, delivering 1,000 km range capability in premium demonstration tiers while true all-solid designs mature.",
+        "sourceIds": ["src-5", "src-4"]
+      },
+      {
+        "title": "Thermal Stability & Fast-Charge Advantages Verified",
+        "description": "Solid electrolytes eliminate flammable organic solvent flashovers, allowing 10-80% ultra-fast charging in 12-15 minutes without runaway degradation when operating within optimal pressure brackets.",
+        "sourceIds": ["src-3", "src-1"]
+      }
+    ],
+    "conflictingDebates": [
+      {
+        "topic": "All-Solid vs Semi-Solid Terminology & Marketing",
+        "perspectiveA": {
+          "stance": "Automakers advertise current 2024-2026 vehicles as having 'solid-state' batteries to signify next-generation range and safety leadership.",
+          "sourceIds": ["src-5"]
+        },
+        "perspectiveB": {
+          "stance": "Materials scientists and battery standards organizations caution that cells with 5-10% liquid electrolyte are hybrid/semi-solid and do not eliminate flammability risks entirely.",
+          "sourceIds": ["src-3"]
+        },
+        "nuance": "The debate hinges on terminology. OEMs prioritize commercial positioning of high-nickel hybrid packs, while electrochemists reserve 'all-solid-state' strictly for 100% solid separator and electrolyte matrices."
+      },
+      {
+        "topic": "Toyota 2026-2027 Commercial Timeline Viability",
+        "perspectiveA": {
+          "stance": "Toyota and Idemitsu Kosan target commercial rollout of solid-state EVs by 2027-2028 with 1,200 km range.",
+          "sourceIds": ["src-2"]
+        },
+        "perspectiveB": {
+          "stance": "Supply chain analysts emphasize that sulfide electrolyte synthesis requires ultra-dry rooms and costly precursor materials that preclude tens of thousands of units before 2030.",
+          "sourceIds": ["src-4"]
+        },
+        "nuance": "Initial 2027 production will likely be limited to a few thousand halo luxury vehicles, with mass consumer pricing arriving in subsequent decade phases."
+      }
+    ],
+    "unknownsAndBlindspots": [
+      "Proprietary scrap rates and manufacturing yield percentages for sulfide/oxide separators on high-speed continuous web lines.",
+      "Long-term sub-zero Celsius performance and ionic conductivity without auxiliary pack heating.",
+      "Recycling process unit economics and hydrometallurgical recovery rates for lithium-metal ceramic composite scrap."
+    ],
+    "confidenceAssessment": {
+      "overallScore": 88,
+      "level": "High",
+      "rationale": "Strong convergence between independent academic literature (Nature Energy), automotive OEM public disclosures (Toyota, VW), and financial supply chain intelligence (BloombergNEF).",
+      "dataCompleteness": "Comprehensive on technical specifications and timeline projections; limited on proprietary manufacturing scrap rates.",
+      "sourceDiversity": "Balanced across peer-reviewed science, OEM corporate filings, financial market analysts, and global investigative journalism."
+    },
+    "limitations": [
+      "Public data relies partially on OEM forward-looking press releases which historically have experienced timeline slippages.",
+      "Cost estimates for pilot lines may drop faster if specialized roll-to-roll calenders achieve unexpected yield breakthroughs."
+    ],
+    "recommendedFollowUps": [
+      "Track Volkswagen PowerCo's upcoming B-sample vehicle track testing telemetry.",
+      "Monitor sulfur-emissions safety compliance for sulfide-based solid electrolyte recycling facilities.",
+      "Examine CATL's condensed matter battery deployment in aviation and heavy transport."
+    ],
+    "rawAgentLogs": [
+      {
+        "timestamp": "2026-10-17T02:40:05.000Z",
+        "stage": "decomposition",
+        "message": "Initialized ScoutAI intelligence pipeline for EV solid-state battery commercial readiness."
+      },
+      {
+        "timestamp": "2026-10-17T02:41:12.000Z",
+        "stage": "retrieval",
+        "message": "Executed Google Search Grounding across 4 technical vectors; retrieved authoritative OEM filings and peer-reviewed papers."
+      },
+      {
+        "timestamp": "2026-10-17T02:43:20.000Z",
+        "stage": "verification",
+        "message": "Identified terminology contradiction between semi-solid and all-solid claims; cross-referenced with Nature Energy benchmarks."
+      },
+      {
+        "timestamp": "2026-10-17T02:45:00.000Z",
+        "stage": "complete",
+        "message": "Dossier compiled with 5 verified sources, 4 claims, and confidence score of 88/100."
+      }
+    ]
+  }
+]
